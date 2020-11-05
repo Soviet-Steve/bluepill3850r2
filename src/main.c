@@ -106,19 +106,19 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  // TIM_OC_InitTypeDef strPwm;
-  // strPwm.OCMode = TIM_OCMODE_PWM1; // Set pwm mode to 1
-  // strPwm.OCPolarity = TIM_OCPOLARITY_HIGH; // Non inverted pwm
-  // strPwm.OCFastMode = TIM_OCFAST_DISABLE; // Fast mode??
-  // strPwm.Pulse = 9000;
+  TIM_OC_InitTypeDef strPwm;
+  strPwm.OCMode = TIM_OCMODE_PWM1; // Set pwm mode to 1
+  strPwm.OCPolarity = TIM_OCPOLARITY_HIGH; // Non inverted pwm
+  strPwm.OCFastMode = TIM_OCFAST_DISABLE; // Fast mode??
+  strPwm.Pulse = 9000;
   
-  // HAL_TIM_PWM_ConfigChannel(&htim2, &strPwm, TIM_CHANNEL_4); // "Uploads the information into a temp register
-  // HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4); // Moves that temp register forward
+  HAL_TIM_PWM_ConfigChannel(&htim2, &strPwm, TIM_CHANNEL_4); // "Uploads the information into a temp register
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4); // Moves that temp register forward
   HAL_TIM_Base_Start_IT(&htim3);
   
   HAL_GPIO_WritePin(MOTOR_INA_GPIO_Port, MOTOR_INA_Pin, SET);
   HAL_GPIO_WritePin(MOTOR_INB_GPIO_Port, MOTOR_INB_Pin, RESET);
-  HAL_GPIO_WritePin(MOTOR_PWM_GPIO_Port, MOTOR_PWM_Pin, RESET);
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
