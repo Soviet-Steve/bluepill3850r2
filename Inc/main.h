@@ -60,6 +60,16 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define V_BAT_Pin GPIO_PIN_4
 #define V_BAT_GPIO_Port GPIOA
+#define HEADLIGHTS_Pin GPIO_PIN_5
+#define HEADLIGHTS_GPIO_Port GPIOA
+#define LEFT_INDICATOR_Pin GPIO_PIN_6
+#define LEFT_INDICATOR_GPIO_Port GPIOA
+#define RIGHT_INDICATOR_Pin GPIO_PIN_7
+#define RIGHT_INDICATOR_GPIO_Port GPIOA
+#define WC_EN_Pin GPIO_PIN_0
+#define WC_EN_GPIO_Port GPIOB
+#define WC_ADC_Pin GPIO_PIN_1
+#define WC_ADC_GPIO_Port GPIOB
 #define MOTOR_PWM_Pin GPIO_PIN_10
 #define MOTOR_PWM_GPIO_Port GPIOB
 #define SERVO_PWM_Pin GPIO_PIN_11
@@ -71,6 +81,7 @@ void Error_Handler(void);
 #define SONAR_TRIG_GPIO_Port GPIOB
 #define HALL_EFFECT_Pin GPIO_PIN_4
 #define HALL_EFFECT_GPIO_Port GPIOB
+#define HALL_EFFECT_EXTI_IRQn EXTI4_IRQn
 #define MOTOR_INA_Pin GPIO_PIN_8
 #define MOTOR_INA_GPIO_Port GPIOB
 #define MOTOR_INB_Pin GPIO_PIN_9
