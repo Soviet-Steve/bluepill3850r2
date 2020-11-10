@@ -59,6 +59,7 @@ volatile int sonicStartTime = 0;
 volatile int sonicStopTime = 0;
 volatile int sonicState = NOT_IN_PROGRESS;
 volatile int distance = 0;
+volatile int hallCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,15 +108,27 @@ int main(void)
   MX_TIM3_Init();
   MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
+  /*Motor PWM*/
   TIM_OC_InitTypeDef strPwm;
   strPwm.OCMode = TIM_OCMODE_PWM1; // Set pwm mode to 1
   strPwm.OCPolarity = TIM_OCPOLARITY_HIGH; // Non inverted pwm
   strPwm.OCFastMode = TIM_OCFAST_DISABLE; // Fast mode??
-  strPwm.Pulse = 9000;
+  strPwm.Pulse = 1000;
   
   HAL_TIM_PWM_ConfigChannel(&htim2, &strPwm, TIM_CHANNEL_4); // "Uploads the information into a temp register
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4); // Moves that temp register forward
-  HAL_TIM_Base_Start_IT(&htim3);
+
+  /*Servo PWM*/
+  TIM_OC_InitTypeDef servoPwm;
+  servoPwm.OCMode = TIM_OCMODE_PWM1;
+  servoPwm.OCPolarity = TIM_OCPOLARITY_HIGH;
+  servoPwm.OCFastMode = TIM_OCFAST_DISABLE;
+  HAL_TIM_PWM_ConfigChannel(&htim2, &servoPwm, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+
+  servoPwm.Pulse = 0;
+  
+  HAL_TIM_Base_Start_IT(&htim3); //Not sure if we are still using this timer.
   
   HAL_GPIO_WritePin(MOTOR_INA_GPIO_Port, MOTOR_INA_Pin, SET);
   HAL_GPIO_WritePin(MOTOR_INB_GPIO_Port, MOTOR_INB_Pin, RESET);
@@ -206,9 +219,17 @@ int stopEcho()
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  sonicStopTime = time;
-  sonicState = NOT_IN_PROGRESS;
-  distance = (sonicStopTime - sonicStartTime) * MEGA * SPEED_OF_SOUND;
+  if(GPIO_Pin == SONAR_ECHO_Pin)
+  {
+    sonicStopTime = time;
+    sonicState = NOT_IN_PROGRESS;
+    distance = (sonicStopTime - sonicStartTime) * MEGA * SPEED_OF_SOUND;
+  }
+
+  if(GPIO_Pin == HALL_EFFECT_Pin)
+  {
+    hallCount++;
+  }
 }
 /* USER CODE END 4 */
 
